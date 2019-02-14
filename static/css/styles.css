@@ -1,0 +1,52 @@
+h5, h4, h3 {
+        margin: 5px 0px 5px 5px !important;
+}
+.row {
+	height: 100%;
+	margin: 0px;
+}
+.col {
+	height: 100%;
+}
+.main-sidebar .main-header{
+	width: auto !important;
+}
+.well{
+	padding: 10px !important;
+	margin: 0px 0px 5px 0px !important;
+}
+.panel {
+	background-color: transparent !important;
+}
+.panel-body {
+        padding: 0px 0px 5px 0px !important;
+}
+.panel-group {
+	margin-bottom: 0px !important;
+	width: auto !important;
+}
+.panel-heading {
+	background-color: transparent !important;
+	padding: 0px;
+}
+.panel-title {
+	margin-left: 10px;
+}
+.panel-default {
+	margin-bottom: 0px;
+}
+.panel-collapse.collapse{
+	background-color: transparent;
+}
+section.sidebar .shiny-input-container {
+	padding: 0px 10px 10px 10px !important;
+}
+.form-group {
+	margin-bottom: 0px;
+}
+.popover {
+        width: 200px;
+}
+.popover-content {
+        color: black;
+}
