@@ -13,8 +13,6 @@ library(reshape2)
 data_table <- t(read.table("inputdata.tsv", header=TRUE, check.names=FALSE, row.names=1, sep="\t"))
 colnames(data_table)<-gsub("[a-zA-Z]","",colnames(data_table))
 
-height <- 800
-
 ## User Interface
 ui <- dashboardPage(
 	dashboardHeader(
@@ -57,17 +55,35 @@ ui <- dashboardPage(
 	),
 	dashboardBody(
 		includeCSS("styles.css"),
-	    uiOutput("hover_info",
-		   	style = "position: absolute;"
-	    ),
-		plotOutput("graph",
-			height = height,
-			dblclick = "dblclick",
-			brush = brushOpts(
-			   	id = "brush",
-			   	resetOnNew = TRUE
-			),
-		    hover = hoverOpts("plot_hover", delay = 100, delayType = "debounce")
+		fluidRow(
+			bsCollapse(
+				id = "options_panel",
+				bsCollapsePanel(
+					title = HTML("<h3><b>Graph Options</h3></b>"),
+					fluidRow(
+						column(3,
+							h5(strong("Graph height (px) :")),
+							numericInput("height", label=NULL, value=600)
+						)
+					)
+				)
+			)
+		),
+		fluidRow(
+			HTML("<small>Zoom: Drag and drop and double-click in the box. Double-click to zoom out.</small>")
+		),
+		fluidRow(
+		    uiOutput("hover_info",
+			   	style = "position: absolute;"
+		    ),
+			plotOutput("graph",
+				dblclick = "dblclick",
+				brush = brushOpts(
+				   	id = "brush",
+				   	resetOnNew = TRUE
+				),
+			    hover = hoverOpts("plot_hover", delay = 100, delayType = "debounce")
+			)
 		)
 	)
 )
@@ -87,7 +103,7 @@ server <- function(input, output, session){
 	output$sample_list <- renderUI({
 		tagList(
 			wellPanel(
-				style = paste0("overflow-y:scroll; background-color: transparent; border-color: transparent; max-height: ",as.character(as.numeric(height)-200),"px"),
+				style = paste0("overflow-y:scroll; background-color: transparent; border-color: transparent; max-height: ",as.character(input$height-50),"px"),
 		    	fluidRow(
 					bsCollapse(
 						open=h4(paste0(capitalize("Samples"))),
@@ -190,7 +206,9 @@ server <- function(input, output, session){
 	output$graph <- renderPlot({
 		spectra <- spectra()
 		return(spectra)
-	})
+	},
+		height = function(x) input$height
+	)
 
 
 	## Functions
